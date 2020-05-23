@@ -1,6 +1,10 @@
 # PuBumGo
 
-A simple CLI tool to bump the version in the pubspec.yaml file.
+Made for Flutter with ❤ in Go
+
+## What is it?
+
+A simple CLI tool to bump the version in the pubspec.yaml file of your Flutter project.
 
 Can be used in git hooks.
 
