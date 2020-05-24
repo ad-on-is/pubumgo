@@ -25,7 +25,7 @@ func main() {
 		return
 	}
 
-	bumps := [5]string{"release", "major", "minor", "build"}
+	bumps := [5]string{"major", "minor", "patch", "build"}
 	bump := ""
 	keepBuild := false
 
@@ -38,7 +38,7 @@ func main() {
 			fmt.Println("Unknown bump! Only these are valid: ", Yellow(bumps))
 			return
 		}
-		if len(os.Args) > 2 && os.Args[2] == "build" {
+		if len(os.Args) > 2 && os.Args[2] == "-b" {
 			keepBuild = true
 		}
 	}
@@ -76,9 +76,9 @@ func bumpVersion(v string, bump string, keepBuild bool) string {
 	hasBuild := len(checkBuild) == 2
 
 	numbers := strings.Split(checkBuild[0], ".")
-	vRelease, err := strconv.Atoi(numbers[0])
-	vMajor, err := strconv.Atoi(numbers[1])
-	vMinor, err := strconv.Atoi(numbers[2])
+	vMajor, err := strconv.Atoi(numbers[0])
+	vMinor, err := strconv.Atoi(numbers[1])
+	vPatch, err := strconv.Atoi(numbers[2])
 	vBuild := 0
 	if hasBuild {
 		vBuild, err = strconv.Atoi(checkBuild[1])
@@ -89,26 +89,26 @@ func bumpVersion(v string, bump string, keepBuild bool) string {
 	}
 
 	switch bump {
-	case "release":
-		vRelease++
-		vMajor = 0
+	case "major":
+		vMajor++
 		vMinor = 0
+		vPatch = 0
 		if !keepBuild {
 			vBuild = 0
 			hasBuild = false
 		}
 
 		break
-	case "major":
-		vMajor++
-		vMinor = 0
+	case "minor":
+		vMinor++
+		vPatch = 0
 		if !keepBuild {
 			vBuild = 0
 			hasBuild = false
 		}
 		break
-	case "minor":
-		vMinor++
+	case "patch":
+		vPatch++
 		if !keepBuild {
 			vBuild = 0
 			hasBuild = false
@@ -119,16 +119,16 @@ func bumpVersion(v string, bump string, keepBuild bool) string {
 		break
 	}
 
-	rel := strconv.Itoa(vRelease)
 	maj := strconv.Itoa(vMajor)
 	min := strconv.Itoa(vMinor)
+	patch := strconv.Itoa(vPatch)
 	build := "+" + strconv.Itoa(vBuild)
 
 	if !hasBuild && bump != "build" {
 		build = ""
 	}
 
-	newVersion := rel + "." + maj + "." + min + build
+	newVersion := maj + "." + min + "." + patch + build
 	fmt.Println("pubspec.yml bumped successfully from", Yellow(version), "->", Green(newVersion))
 	return "version: " + newVersion
 }
