@@ -22,3 +22,14 @@ Can be used in git hooks.
 Use `build` additionally to preserve the build-number
 
 `pubumgo release build` will bumpt the version from `1.2.3+4` to `2.0.0+4`
+
+## Use as a git-hook, example `project-root/.git/hooks/pre-commit`
+
+```
+#!/bin/bash
+
+pobogo minor
+git add pubspec.yaml
+```
+
+Then in your `project-root` just invoke the git commands as usual, `git add`, and `git commit`, and your pubspec version will automatically be bumped.
