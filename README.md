@@ -28,7 +28,7 @@ Use `build` additionally to preserve the build-number
 ```
 #!/bin/bash
 
-pobogo minor
+pubumgo minor
 git add pubspec.yaml
 ```
 
